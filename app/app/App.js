@@ -1,20 +1,58 @@
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
+import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
+import OnboardingFlow from './src/screens/Onboarding/OnboardingFlow';
+import AuthGateway from './src/screens/Auth/AuthGateway';
+import AppNavigator from './src/navigation/AppNavigator';
+
+const Shell = ({ onboardingData, onCompleteOnboarding, onAuthenticated, authenticated }) => {
+  const { theme } = useTheme();
+
+  if (!onboardingData) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <OnboardingFlow onComplete={onCompleteOnboarding} />
+      </View>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <AuthGateway onAuthenticated={onAuthenticated} />
+      </View>
+    );
+  }
+
+  return <AppNavigator />;
+};
+
+const AppContent = () => {
+  const [onboardingData, setOnboardingData] = useState(null);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  const handleOnboardingComplete = (data) => {
+    setOnboardingData(data);
+  };
+
+  return (
+    <ThemeProvider>
+      <StatusBar style="light" />
+      <Shell
+        onboardingData={onboardingData}
+        onCompleteOnboarding={handleOnboardingComplete}
+        onAuthenticated={() => setAuthenticated(true)}
+        authenticated={authenticated}
+      />
+    </ThemeProvider>
+  );
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <AppContent />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
