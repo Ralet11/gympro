@@ -1,4 +1,3 @@
-import { pick } from 'lodash'
 import AppError from '../utils/appError.js'
 import { getModels, getSequelize } from '../loaders/sequelize.js'
 import { hashPassword, comparePassword } from '../utils/password.js'
@@ -15,8 +14,29 @@ const roleDisplayName = {
   member: 'Miembro',
 }
 
-const sanitizeUser = (user) =>
-  pick(user, ['id', 'email', 'fullName', 'status', 'gymId', 'preferences', 'goalsJson'])
+const sanitizeUser = (user) => {
+  if (!user) return undefined
+
+  const {
+    id,
+    email,
+    fullName,
+    status,
+    gymId,
+    preferences,
+    goalsJson,
+  } = user
+
+  return {
+    id,
+    email,
+    fullName,
+    status,
+    gymId,
+    preferences,
+    goalsJson,
+  }
+}
 
 const ensureRoleExists = async (roleKey, transaction) => {
   const { Role } = getModels()
