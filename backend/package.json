@@ -1,0 +1,46 @@
+{
+  "name": "gym-pro-backend",
+  "version": "0.1.0",
+  "description": "Backend multi-tenant para la plataforma Gym Pro (Node.js + Express + Sequelize).",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon src/server.js",
+    "start": "cross-env NODE_ENV=production node src/server.js",
+    "db:migrate": "sequelize-cli db:migrate --config src/db/config.cjs --migrations-path src/db/migrations --models-path src/db/models --seeders-path src/db/seeders",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo --config src/db/config.cjs --migrations-path src/db/migrations --models-path src/db/models",
+    "db:seed": "sequelize-cli db:seed:all --config src/db/config.cjs --seeders-path src/db/seeders",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
+    "pino": "^9.3.1",
+    "pino-http": "^10.3.0",
+    "sequelize": "^6.37.1",
+    "slugify": "^1.6.6",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.4.0",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.7",
+    "sequelize-cli": "^6.6.2"
+  }
+}
